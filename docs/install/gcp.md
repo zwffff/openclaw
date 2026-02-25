@@ -114,10 +114,11 @@ gcloud services enable compute.googleapis.com
 
 **Machine types:**
 
-| Type     | Specs                    | Cost               | Notes              |
-| -------- | ------------------------ | ------------------ | ------------------ |
-| e2-small | 2 vCPU, 2GB RAM          | ~$12/mo            | Recommended        |
-| e2-micro | 2 vCPU (shared), 1GB RAM | Free tier eligible | May OOM under load |
+| Type      | Specs                    | Cost               | Notes                                                                 |
+| --------- | ------------------------ | ------------------ | --------------------------------------------------------------------- |
+| e2-small  | 2 vCPU, 2GB RAM          | ~$12/mo            | Recommended; minimum for building the Docker image on the VM          |
+| e2-medium | 2 vCPU, 4GB RAM          | ~$24/mo            | Use if Docker build fails with "Killed" or exit 137 (OOM)             |
+| e2-micro  | 2 vCPU (shared), 1GB RAM | Free tier eligible | May OOM when building the image; use only if you use a pre-built image |
 
 **CLI:**
 
@@ -344,6 +345,8 @@ CMD ["node","dist/index.js"]
 ---
 
 ## 11) Build and launch
+
+Building the image runs `pnpm install` and can use ~2GB RAM. If the build fails with **"Killed"** or **exit code 137**, the host ran out of memory: use a larger machine type (e.g. e2-medium with 4GB RAM), then rebuild, or build the image on another machine and push to a registry.
 
 ```bash
 docker compose build

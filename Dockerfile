@@ -23,6 +23,8 @@ COPY --chown=node:node patches ./patches
 COPY --chown=node:node scripts ./scripts
 
 USER node
+# Cap Node heap to reduce OOM (exit 137) on low-memory hosts (e.g. small GCP VMs).
+ENV NODE_OPTIONS=--max-old-space-size=2048
 RUN pnpm install --frozen-lockfile
 
 # Optionally install Chromium and Xvfb for browser automation.

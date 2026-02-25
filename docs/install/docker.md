@@ -27,6 +27,7 @@ Sandboxing details: [Sandboxing](/gateway/sandboxing)
 
 - Docker Desktop (or Docker Engine) + Docker Compose v2
 - Enough disk for images + logs
+- At least 2GB RAM for building the image (builds on very small hosts may fail with "Killed" / exit 137; use a larger machine or pre-built image)
 
 ## Containerized Gateway (Docker Compose)
 
