@@ -9,6 +9,7 @@
   "tabWidth": 2,
   "useTabs": false,
   "ignorePatterns": [
+    ".specstory/",
     "apps/",
     "assets/",
     "CLAUDE.md",

@@ -114,10 +114,10 @@ gcloud services enable compute.googleapis.com
 
 **Machine types:**
 
-| Type      | Specs                    | Cost               | Notes                                                                 |
-| --------- | ------------------------ | ------------------ | --------------------------------------------------------------------- |
-| e2-small  | 2 vCPU, 2GB RAM          | ~$12/mo            | Recommended; minimum for building the Docker image on the VM          |
-| e2-medium | 2 vCPU, 4GB RAM          | ~$24/mo            | Use if Docker build fails with "Killed" or exit 137 (OOM)             |
+| Type      | Specs                    | Cost               | Notes                                                                  |
+| --------- | ------------------------ | ------------------ | ---------------------------------------------------------------------- |
+| e2-small  | 2 vCPU, 2GB RAM          | ~$12/mo            | Recommended; minimum for building the Docker image on the VM           |
+| e2-medium | 2 vCPU, 4GB RAM          | ~$24/mo            | Use if Docker build fails with "Killed" or exit 137 (OOM)              |
 | e2-micro  | 2 vCPU (shared), 1GB RAM | Free tier eligible | May OOM when building the image; use only if you use a pre-built image |
 
 **CLI:**
