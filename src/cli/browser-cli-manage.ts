@@ -12,6 +12,7 @@ import { defaultRuntime } from "../runtime.js";
 import { shortenHomePath } from "../utils.js";
 import { callBrowserRequest, type BrowserParentOpts } from "./browser-cli-shared.js";
 import { runCommandWithRuntime } from "./cli-utils.js";
+import { DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS } from "./constants.js";
 
 async function fetchBrowserStatus(
   parent: BrowserParentOpts,
