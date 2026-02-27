@@ -41,7 +41,7 @@ async function runBrowserToggle(
       path: params.path,
       query: params.profile ? { profile: params.profile } : undefined,
     },
-    { timeoutMs: 45_000 },
+    { timeoutMs: DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS },
   );
   const status = await fetchBrowserStatus(parent, params.profile);
   if (parent?.json) {
