@@ -310,7 +310,7 @@ export function registerBrowserManageCommands(
             query: profile ? { profile } : undefined,
             body: { url },
           },
-          { timeoutMs: 45_000 },
+          { timeoutMs: DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS },
         );
         if (parent?.json) {
           defaultRuntime.log(JSON.stringify(tab, null, 2));
