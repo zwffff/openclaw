@@ -118,6 +118,12 @@ export function createBlockReplyDeliveryHandler(params: {
       });
     }
 
+    // Skip enqueue/send when payload would render as empty (no text, no media, no audio).
+    // Prevents channels like Telegram from receiving a blank message when flushing before tool execution.
+    if (!blockPayload.text && !blockHasMedia && !blockPayload.audioAsVoice) {
+      return;
+    }
+
     // Use pipeline if available (block streaming enabled), otherwise send directly.
     if (params.blockStreamingEnabled && params.blockReplyPipeline) {
       params.blockReplyPipeline.enqueue(blockPayload);
