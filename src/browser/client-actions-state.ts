@@ -1,7 +1,7 @@
 import type { BrowserActionOk, BrowserActionTargetOk } from "./client-actions-types.js";
 import { buildProfileQuery, withBaseUrl } from "./client-actions-url.js";
-import { DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS } from "./constants.js";
 import { fetchBrowserJson } from "./client-fetch.js";
+import { DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS } from "./constants.js";
 
 export async function browserCookies(
   baseUrl: string | undefined,
@@ -19,7 +19,9 @@ export async function browserCookies(
     ok: true;
     targetId: string;
     cookies: unknown[];
-  }>(withBaseUrl(baseUrl, `/cookies${suffix}`), { timeoutMs: DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS });
+  }>(withBaseUrl(baseUrl, `/cookies${suffix}`), {
+    timeoutMs: DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS,
+  });
 }
 
 export async function browserCookiesSet(
@@ -76,7 +78,9 @@ export async function browserStorageGet(
     ok: true;
     targetId: string;
     values: Record<string, string>;
-  }>(withBaseUrl(baseUrl, `/storage/${opts.kind}${suffix}`), { timeoutMs: DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS });
+  }>(withBaseUrl(baseUrl, `/storage/${opts.kind}${suffix}`), {
+    timeoutMs: DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS,
+  });
 }
 
 export async function browserStorageSet(

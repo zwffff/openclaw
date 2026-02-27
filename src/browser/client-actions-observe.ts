@@ -1,7 +1,7 @@
 import type { BrowserActionPathResult, BrowserActionTargetOk } from "./client-actions-types.js";
 import { buildProfileQuery, withBaseUrl } from "./client-actions-url.js";
-import { DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS } from "./constants.js";
 import { fetchBrowserJson } from "./client-fetch.js";
+import { DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS } from "./constants.js";
 import type {
   BrowserConsoleMessage,
   BrowserNetworkRequest,
@@ -36,7 +36,9 @@ export async function browserConsoleMessages(
     ok: true;
     messages: BrowserConsoleMessage[];
     targetId: string;
-  }>(withBaseUrl(baseUrl, `/console${suffix}`), { timeoutMs: DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS });
+  }>(withBaseUrl(baseUrl, `/console${suffix}`), {
+    timeoutMs: DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS,
+  });
 }
 
 export async function browserPdfSave(
@@ -65,7 +67,9 @@ export async function browserPageErrors(
     ok: true;
     targetId: string;
     errors: BrowserPageError[];
-  }>(withBaseUrl(baseUrl, `/errors${suffix}`), { timeoutMs: DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS });
+  }>(withBaseUrl(baseUrl, `/errors${suffix}`), {
+    timeoutMs: DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS,
+  });
 }
 
 export async function browserRequests(
@@ -87,7 +91,9 @@ export async function browserRequests(
     ok: true;
     targetId: string;
     requests: BrowserNetworkRequest[];
-  }>(withBaseUrl(baseUrl, `/requests${suffix}`), { timeoutMs: DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS });
+  }>(withBaseUrl(baseUrl, `/requests${suffix}`), {
+    timeoutMs: DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS,
+  });
 }
 
 export async function browserTraceStart(
