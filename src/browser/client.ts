@@ -1,3 +1,4 @@
+import { DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS } from "./constants.js";
 import { fetchBrowserJson } from "./client-fetch.js";
 
 export type BrowserStatus = {
@@ -143,7 +144,7 @@ export async function browserResetProfile(
     withBaseUrl(baseUrl, `/reset-profile${q}`),
     {
       method: "POST",
-      timeoutMs: 20000,
+      timeoutMs: DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS,
     },
   );
 }
@@ -196,7 +197,7 @@ export async function browserDeleteProfile(
     withBaseUrl(baseUrl, `/profiles/${encodeURIComponent(profile)}`),
     {
       method: "DELETE",
-      timeoutMs: 20000,
+      timeoutMs: DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS,
     },
   );
 }
@@ -330,7 +331,7 @@ export async function browserSnapshot(
     q.set("profile", opts.profile);
   }
   return await fetchBrowserJson<SnapshotResult>(withBaseUrl(baseUrl, `/snapshot?${q.toString()}`), {
-    timeoutMs: 20000,
+    timeoutMs: DEFAULT_BROWSER_CONTROL_REQUEST_TIMEOUT_MS,
   });
 }
 
