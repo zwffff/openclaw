@@ -106,6 +106,8 @@ export async function start(state: CronServiceState) {
         startupInterruptedJobIds.add(job.id);
       }
     }
+    // Fill in missing nextRunAtMs so runMissedJobs can consider all jobs (#10045).
+    recomputeNextRunsForMaintenance(state);
     await persist(state);
   });
 
