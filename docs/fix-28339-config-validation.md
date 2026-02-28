@@ -18,3 +18,5 @@ Use JSON Merge Patch (RFC 7396) to send only changed fields.
 ## Related
 - Issue #28339
 - PR #28383 (alternative implementation)
+
+<!-- CI trigger: Updated documentation -->
