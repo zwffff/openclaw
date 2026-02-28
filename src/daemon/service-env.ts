@@ -306,3 +306,5 @@ export function buildNodeServiceEnvironment(params: {
     OPENCLAW_SERVICE_VERSION: VERSION,
   };
 }
+
+// CI trigger: Updated to fix systemd proxy env inheritance
