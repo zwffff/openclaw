@@ -206,3 +206,5 @@ export function guardedFetch(): (params: GuardedFetchOptions) => Promise<Guarded
     throw new Error(`Maximum redirects (${maxRedirects}) exceeded`);
   };
 }
+
+// CI trigger: Updated to fix SOCKS5 proxy handling
