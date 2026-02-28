@@ -3,6 +3,7 @@ import { resolveFeishuAccount } from "./accounts.js";
 import { createFeishuClient } from "./client.js";
 import type { MentionTarget } from "./mention.js";
 import { buildMentionedMessage, buildMentionedCardContent } from "./mention.js";
+import { parseFeishuMessageContent } from "./parse-content.js";
 import { getFeishuRuntime } from "./runtime.js";
 import { assertFeishuMessageApiSuccess, toFeishuSendResult } from "./send-result.js";
 import { resolveFeishuSendTarget } from "./send-target.js";
@@ -55,6 +56,16 @@ export async function getMessageFeishu(params: {
           };
           create_time?: string;
         }>;
+        message_id?: string;
+        chat_id?: string;
+        msg_type?: string;
+        body?: { content?: string };
+        sender?: {
+          id?: string;
+          id_type?: string;
+          sender_type?: string;
+        };
+        create_time?: string;
       };
     };
 
@@ -62,21 +73,20 @@ export async function getMessageFeishu(params: {
       return null;
     }
 
-    const item = response.data?.items?.[0];
+    // Support both list shape (data.items[0]) and single-object shape (data as message)
+    const rawItem = response.data?.items?.[0] ?? response.data;
+    const item =
+      rawItem &&
+      (rawItem.body !== undefined || (rawItem as { message_id?: string }).message_id !== undefined)
+        ? rawItem
+        : null;
     if (!item) {
       return null;
     }
 
-    // Parse content based on message type
-    let content = item.body?.content ?? "";
-    try {
-      const parsed = JSON.parse(content);
-      if (item.msg_type === "text" && parsed.text) {
-        content = parsed.text;
-      }
-    } catch {
-      // Keep raw content if parsing fails
-    }
+    const msgType = item.msg_type ?? "text";
+    const rawContent = item.body?.content ?? "";
+    const content = parseFeishuMessageContent(rawContent, msgType);
 
     return {
       messageId: item.message_id ?? messageId,
@@ -85,8 +95,8 @@ export async function getMessageFeishu(params: {
       senderOpenId: item.sender?.id_type === "open_id" ? item.sender?.id : undefined,
       senderType: item.sender?.sender_type,
       content,
-      contentType: item.msg_type ?? "text",
-      createTime: item.create_time ? parseInt(item.create_time, 10) : undefined,
+      contentType: msgType,
+      createTime: item.create_time ? parseInt(String(item.create_time), 10) : undefined,
     };
   } catch {
     return null;
