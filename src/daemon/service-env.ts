@@ -237,8 +237,9 @@ export function buildServiceEnvironment(params: {
   token?: string;
   launchdLabel?: string;
   platform?: NodeJS.Platform;
+  inheritProxyEnv?: boolean;
 }): Record<string, string | undefined> {
-  const { env, port, token, launchdLabel } = params;
+  const { env, port, token, launchdLabel, inheritProxyEnv } = params;
   const platform = params.platform ?? process.platform;
   const profile = env.OPENCLAW_PROFILE;
   const resolvedLaunchdLabel =
@@ -276,8 +277,9 @@ export function buildServiceEnvironment(params: {
 export function buildNodeServiceEnvironment(params: {
   env: Record<string, string | undefined>;
   platform?: NodeJS.Platform;
+  inheritProxyEnv?: boolean;
 }): Record<string, string | undefined> {
-  const { env } = params;
+  const { env, inheritProxyEnv } = params;
   const platform = params.platform ?? process.platform;
   const stateDir = env.OPENCLAW_STATE_DIR;
   const configPath = env.OPENCLAW_CONFIG_PATH;
@@ -298,9 +300,7 @@ export function buildNodeServiceEnvironment(params: {
     OPENCLAW_CONFIG_PATH: configPath,
     OPENCLAW_LAUNCHD_LABEL: resolveNodeLaunchAgentLabel(),
     OPENCLAW_SYSTEMD_UNIT: resolveNodeSystemdServiceName(),
-    OPENCLAW_WINDOWS_TASK_NAME: resolveNodeWindowsTaskName(),
-    OPENCLAW_TASK_SCRIPT_NAME: NODE_WINDOWS_TASK_SCRIPT_NAME,
-    OPENCLAW_LOG_PREFIX: "node",
+    OPENCLAW_WINDOWS_TASK_SCRIPT_NAME: NODE_WINDOWS_TASK_SCRIPT_NAME,
     OPENCLAW_SERVICE_MARKER: NODE_SERVICE_MARKER,
     OPENCLAW_SERVICE_KIND: NODE_SERVICE_KIND,
     OPENCLAW_SERVICE_VERSION: VERSION,
