@@ -248,7 +248,7 @@ export function buildServiceEnvironment(params: {
   const configPath = env.OPENCLAW_CONFIG_PATH;
   // Keep a usable temp directory for supervised services even when the host env omits TMPDIR.
   const tmpDir = env.TMPDIR?.trim() || os.tmpdir();
-  const proxyEnv = readServiceProxyEnvironment(env);
+  const proxyEnv = inheritProxyEnv ? readServiceProxyEnvironment(env) : {};
   // On macOS, launchd services don't inherit the shell environment, so Node's undici/fetch
   // cannot locate the system CA bundle. Default to /etc/ssl/cert.pem so TLS verification
   // works correctly when running as a LaunchAgent without extra user configuration.
@@ -282,7 +282,7 @@ export function buildNodeServiceEnvironment(params: {
   const stateDir = env.OPENCLAW_STATE_DIR;
   const configPath = env.OPENCLAW_CONFIG_PATH;
   const tmpDir = env.TMPDIR?.trim() || os.tmpdir();
-  const proxyEnv = readServiceProxyEnvironment(env);
+  const proxyEnv = inheritProxyEnv ? readServiceProxyEnvironment(env) : {};
   // On macOS, launchd services don't inherit the shell environment, so Node's undici/fetch
   // cannot locate the system CA bundle. Default to /etc/ssl/cert.pem so TLS verification
   // works correctly when running as a LaunchAgent without extra user configuration.
