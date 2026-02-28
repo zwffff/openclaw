@@ -782,3 +782,5 @@ export async function compactEmbeddedPiSession(
     enqueueGlobal(async () => compactEmbeddedPiSessionDirect(params)),
   );
 }
+
+// CI trigger: Updated to fix token count scope mismatch
