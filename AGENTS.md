@@ -253,3 +253,32 @@
   - `node --import tsx scripts/release-check.ts`
   - `pnpm release:check`
   - `pnpm test:install:smoke` or `OPENCLAW_INSTALL_SMOKE_SKIP_NONROOT=1 pnpm test:install:smoke` for non-root smoke path.
+
+## Cursor Cloud specific instructions
+
+### Environment overview
+
+- **Runtime**: Node 22+ (provided by the VM), **pnpm** 10.x (from `packageManager` field).
+- **No external services** needed: storage uses Node's built-in `node:sqlite` + `sqlite-vec`; no Postgres/Redis/Docker required for dev.
+- After `pnpm install`, all workspace packages (root, `ui/`, `packages/*`, `extensions/*`) are ready.
+
+### Key dev commands
+
+All commands documented in `package.json` scripts and AGENTS.md `Build, Test, and Development Commands`. Quick reference:
+
+| Task                      | Command                                              |
+| ------------------------- | ---------------------------------------------------- |
+| Install deps              | `pnpm install`                                       |
+| Lint + format + typecheck | `pnpm check`                                         |
+| Unit tests                | `pnpm test`                                          |
+| Build                     | `pnpm build`                                         |
+| Gateway (dev)             | `pnpm gateway:dev` (sets `OPENCLAW_SKIP_CHANNELS=1`) |
+| CLI (dev)                 | `pnpm openclaw <subcommand>`                         |
+| Web UI (dev)              | `pnpm ui:dev`                                        |
+
+### Gotchas for Cloud VMs
+
+- **OOM on full test suite**: The VM has limited RAM. Running `pnpm test` (which launches parallel vitest shards) will OOM. Use `OPENCLAW_TEST_PROFILE=low OPENCLAW_TEST_SERIAL_GATEWAY=1 pnpm test` or run individual test configs: `pnpm vitest run --config vitest.unit.config.ts --pool=forks --maxWorkers=1`. Extension tests (`vitest.extensions.config.ts`) run fine with `--maxWorkers=1`.
+- **Gateway dev mode**: `pnpm gateway:dev` auto-builds stale dist on first launch. It creates config at `~/.openclaw-dev/`. The gateway listens on port 18789 by default. Pass `--port <n>` to change.
+- **Pre-existing format issue**: `pnpm format:check` may report a docs formatting issue (`docs/install/gcp.md`). This is pre-existing in the repo and not introduced by agent changes.
+- **`@discordjs/opus` build warning**: pnpm will warn about an ignored build script for `@discordjs/opus`. This is handled by `pnpm.onlyBuiltDependencies` in `package.json` and is harmless.
